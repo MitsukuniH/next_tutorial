@@ -1,0 +1,17 @@
+.task{
+    border:solid 0.1rem black;
+    display: flex;
+}
+.task h3{
+    width: 80%;
+}
+.task button{
+    background-color: white;
+    border: none;
+    border-left: solid 0.1rem;
+
+    transition: all 0.2s;
+}
+.task button:hover{
+    background-color: red;
+}
