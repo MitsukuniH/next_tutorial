@@ -6,24 +6,24 @@ import { Header } from "./components/header";
 
 
 export default function Home() {
-  const [tasks, useTasks] = useState<string[]>([]);       //タスクの名前を入れる配列
-  const [newTask, useNewTask] =useState<string>("");      //入力中のタスクを入れる変数
-  const [error, useError] = useState<string|null>(null);  //エラーを入れる変数
+  const [tasks, setTasks] = useState<string[]>([]);       //タスクの名前を入れる配列
+  const [newTask, setNewTask] =useState<string>("");      //入力中のタスクを入れる変数
+  const [error, setError] = useState<string|null>(null);  //エラーを入れる変数
 
   //inputのonchangeの動作をコントロールする関数
   const handleChangeTaskName = (taskName: string) =>{
-    useNewTask(taskName);   //変更された値をnewTask変数に入れている
+    setNewTask(taskName);   //変更された値をnewTask変数に入れている
   }
   //追加buttonのonclickの動作をコントロールする関数
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
     e.preventDefault();   //デフォルトの操作をブロック（この場合form中のbuttonのリロードする動作を阻止）
     if(newTask===""){     //タスクが未入力だった場合のハンドリング
-      useError("タスクが入力されていません！")
+      setError("タスクが入力されていません！")
       return;
     }
-    useTasks(ts=>[...ts, newTask])  //tasks配列にnewTaskの内容を加える
-    useNewTask("");                 //newTaskをクリア
-    useError(null);                 //errorをクリア
+    setTasks(ts=>[...ts, newTask])  //tasks配列にnewTaskの内容を加える
+    setNewTask("");                 //newTaskをクリア
+    setError(null);                 //errorをクリア
   }
   //tasksが更新された時、それをローカルストレージに反映する
   useEffect(()=>{
@@ -42,7 +42,7 @@ export default function Home() {
     const tasklist = localStorage.getItem("tasks")?.split(",");
     if(!tasklist) return;
 
-    useTasks(tasklist)
+    setTasks(tasklist)
   },[])
 
   //ここからHTML要素
@@ -55,7 +55,7 @@ export default function Home() {
         <Header/>                         {/* Headerコンポーネントの呼び出し */}
         <div className={styles.tasks}>    {/* tasks配列を展開してTaskコンポーネントにPropsとして渡して表示 */}
           {tasks.map((_,i)=>(
-            <Task key={i} taskId={i} tasks={tasks} useTasks={useTasks}/>
+            <Task key={i} taskId={i} tasks={tasks} setTasks={setTasks}/>
           ))}
         </div>
         <form className={styles.form}>    {/* 新しいタスク入力用のフォーム */}

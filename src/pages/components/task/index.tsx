@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 interface Props {
     taskId: number;
     tasks: string[];
-    useTasks: Dispatch<SetStateAction<string[]>>;
+    setTasks: Dispatch<SetStateAction<string[]>>;
 }
 
 export const Task = (
@@ -18,7 +18,7 @@ export const Task = (
     //削除ボタンクリック時の操作
     const handleDelete = ()=>{
         const deleted = props.tasks.filter((_,i)=>i!==props.taskId);    //現在のタスクを除いた配列を作成
-        props.useTasks(deleted);                                        //tasksにセット
+        props.setTasks(deleted);                                        //tasksにセット
     }
     return(
         <div className={styles.task}>
