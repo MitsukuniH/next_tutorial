@@ -9,6 +9,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<string[]>([]);       //タスクの名前を入れる配列
   const [newTask, setNewTask] =useState<string>("");      //入力中のタスクを入れる変数
   const [error, setError] = useState<string|null>(null);  //エラーを入れる変数
+  const [isFirst, setIsFirst] = useState<boolean>(true);
 
   //inputのonchangeの動作をコントロールする関数
   const handleChangeTaskName = (taskName: string) =>{
@@ -25,8 +26,19 @@ export default function Home() {
     setNewTask("");                 //newTaskをクリア
     setError(null);                 //errorをクリア
   }
+  //ページが読み込まれた時にローカルストレージからタスクを読み出す
+  useEffect(()=>{
+    const tasklist = localStorage.getItem("tasks")?.split(",");
+    if(!tasklist) return;
+
+    setTasks(tasklist)
+  },[])
   //tasksが更新された時、それをローカルストレージに反映する
   useEffect(()=>{
+    if(isFirst){
+      setIsFirst(false);
+      return;
+    }
     if(tasks.length===0){
       localStorage.setItem(`tasks`, "")
       return;
@@ -37,13 +49,7 @@ export default function Home() {
     localStorage.setItem(`tasks`, tasklist); //localStorageに新しいタスクを保存
   }, [tasks])
 
-  //ページが読み込まれた時にローカルストレージからタスクを読み出す
-  useEffect(()=>{
-    const tasklist = localStorage.getItem("tasks")?.split(",");
-    if(!tasklist) return;
-
-    setTasks(tasklist)
-  },[])
+  
 
   //ここからHTML要素
   return (
