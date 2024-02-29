@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Task } from "./components/task";
 import { Header } from "./components/header";
 
-
 export default function Home() {
   const [tasks, setTasks] = useState<string[]>([]);       //タスクの名前を入れる配列
   const [newTask, setNewTask] =useState<string>("");      //入力中のタスクを入れる変数
